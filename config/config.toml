@@ -1,11 +1,9 @@
 ## config
 data_source = 'local'
 threshold = 0.5
-monthly_charge = 100
 ## Input Raw data
 
 ## Output Processed data
-feature_file = "../data/processed/feature.csv"
 training_data_file = '/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/Human_Activity_Recognition_Using_Smartphones_Data_augmented_data.gzip'
 
 ##Output Prediction :->
