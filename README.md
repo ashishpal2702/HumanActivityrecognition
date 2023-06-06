@@ -12,6 +12,7 @@ The open source packages used in this project is available in [requirements.txt]
 Clone this repo to your desktop :
 
 To install all the dependencies.
+
 Run
 
 `pip install -e .`
