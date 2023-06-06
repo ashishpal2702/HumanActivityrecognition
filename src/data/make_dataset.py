@@ -20,13 +20,13 @@ class Dataset:
 
     def make_train_dataset(self, df, y_col):
         le = LabelEncoder()
-        df['Activity'] = le.fit_transform(df['Activity'])
+        df[y_col] = le.fit_transform(df[y_col])
         X = df.drop([y_col], axis=1)
         Y = df[y_col]
         return X, Y
 
     def make_test_dataset(self, df):
-        X = df#.drop(["customerID"], axis=1)
+        X = df
         return X
 
     def data_split(self, X, Y):

@@ -38,20 +38,19 @@ class Training:
 
     def train(self):
         """Load data from for Model training and train model and save the weights."""
-        threshold = 0.5
         update_log("making feature data set from raw data")
         md = Dataset(self.config)
-        train = Train(self.config, threshold)
+        train = Train()
         # Read Training Dataset
         df = md.read_data(self.config["training_data_file"])
         # Make Data set for Training
         X, Y = md.make_train_dataset(df,'Activity')
 
-        #top_k_features = self.get_best_features(X, Y)
-        #X = X[top_k_features]
+        top_k_features = self.get_best_features(X, Y)
+        X = X[top_k_features]
         x_train, x_test, y_train, y_test = md.data_split(X, Y)
-        x_train_std = x_train#self.build_feature(x_train, mode="train")
-        x_test_std = x_test#self.build_feature(x_test, mode="test")
+        x_train_std = self.build_feature(x_train, mode="train")
+        x_test_std = self.build_feature(x_test, mode="test")
         models = []
         accuracy_scores = []
         f1_scores = []
@@ -77,24 +76,14 @@ class Training:
                 "Accuracy": accuracy_scores,
                 "F1": f1_scores,
                 "Precision": precision_scores,
-                "Recall": recall_scores,
-                "business_profit": business_profit,
+                "Recall": recall_scores
             }
         )
         print(Model_comarison)
-        ## Choosing LR model As final model :
-
-        #final_model = train.best_lr_model(x_train_std, y_train)
-        #score, roc, f1, precision, recall, profit = train.train_and_predict(
-        #    final_model, x_train_std, y_train, x_test_std, y_test
-        #)
-        #print(score, roc, f1, precision, recall, profit)
-        #train.save_model_weights(final_model, self.config["model_weights"])
-        #save_weights(top_k_features, self.config["feat_col"])
 
 
 if __name__ == "__main__":
     update_log("Start Model training on latest processed data")
-    k = 500
+    k = 10
     config = load_config()
     Training(config,k).train()

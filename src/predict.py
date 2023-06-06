@@ -4,13 +4,10 @@ import numpy as np
 import datetime
 from src.utils.helper import (
     load_config,
-    load_credentials,
     update_log,
-    save_data,
     load_weights,
 )
-from src.connector.connections import Connections
-from src.data.make_dataset import MakeDataset
+from src.data.make_dataset import Dataset
 from src.features.build_features import BuildFeatures
 from src.models.predict_model import Predict
 
@@ -18,7 +15,7 @@ from src.models.predict_model import Predict
 class Prediction:
     def __init__(self, config):
         self.config = config
-        self.md = MakeDataset(self.config)
+        self.md = Dataset(self.config)
         self.feat = BuildFeatures(self.config)
 
     def build_test_feature(self, df):
