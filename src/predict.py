@@ -11,7 +11,6 @@ from src.data.make_dataset import Dataset
 from src.features.build_features import BuildFeatures
 from src.models.predict_model import Predict
 
-
 class Prediction:
     def __init__(self, config):
         self.config = config

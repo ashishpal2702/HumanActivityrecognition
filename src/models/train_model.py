@@ -49,7 +49,7 @@ class Train:
         rfc = RandomForestClassifier()
         bag_clf = BaggingClassifier(
             DecisionTreeClassifier(),
-            n_estimators=500,
+            n_estimators=50,
             max_samples=300,
             bootstrap=True,
             oob_score=True,
