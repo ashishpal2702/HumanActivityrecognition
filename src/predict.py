@@ -55,7 +55,8 @@ class Prediction:
         threshold = 0.5
         x_test_std = self.build_test_feature(df)
         df['prediction'] = self.model_predict(x_test_std, threshold)
-
+        le = load_weights(self.config['encoder_weights'])
+        df['prediction'] = le.inverse_transform(df['Activity'])
         return df
 
 

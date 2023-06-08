@@ -19,17 +19,13 @@ from src.models.eval import Eval
 
 
 class Train:
-    def __init__(self, config, threshold):
-        self.threshold = threshold
-        self.monthly_charge = config["monthly_charge"]
-
     def train_and_predict(self, model, x_train, y_train, x_test, y_test):
         e = Eval()
         trained_model = self.train_model(model, x_train, y_train)
         y_test_pred = self.model_predict(trained_model, x_test)
         ## Test data metrics
-        score, roc, f1, p, r = e.eval_metrics(y_test_pred, y_test)
-        return score, roc, f1, p, r
+        score, f1, p, r = e.eval_metrics(y_test_pred, y_test)
+        return score, f1, p, r
 
     def train_model(self, model, x_train, y_train):
         model.fit(x_train, y_train)
@@ -41,19 +37,19 @@ class Train:
 
     def model_predict(self, model, x):
         predicted_proba = model.predict_proba(x)
-        y_pred = (predicted_proba[:, 1] >= self.threshold).astype("int")
-        # y_pred = model.predict(x)
+        #y_pred = (predicted_proba[:, 1] >= self.threshold).astype("int")
+        y_pred = model.predict(x)
         return y_pred
 
     def get_classification_models(self):
         lr = LogisticRegression()
-        svc = SVC(probability=True)
+        #svc = SVC(probability=True)
         dt = DecisionTreeClassifier()
         ## ensembles
         rfc = RandomForestClassifier()
         bag_clf = BaggingClassifier(
             DecisionTreeClassifier(),
-            n_estimators=500,
+            n_estimators=50,
             max_samples=300,
             bootstrap=True,
             oob_score=True,
@@ -61,20 +57,20 @@ class Train:
             random_state=42,
         )
 
-        etc_clf = ExtraTreesClassifier(
-            n_estimators=1000, min_samples_split=300, random_state=42
-        )
-        ada_clf = AdaBoostClassifier(
-            DecisionTreeClassifier(max_depth=1), n_estimators=300, learning_rate=1.0
-        )
+        #etc_clf = ExtraTreesClassifier(
+        #    n_estimators=1000, min_samples_split=300, random_state=42
+        #)
+        #ada_clf = AdaBoostClassifier(
+        #    DecisionTreeClassifier(max_depth=1), n_estimators=300, learning_rate=1.0
+        #)
         gbdt_clf = GradientBoostingClassifier(
-            n_estimators=500,
+            n_estimators=50,
             learning_rate=1.0,
             max_depth=20,
             max_leaf_nodes=2,
             random_state=42,
         )
-        return [lr, svc, dt, rfc, bag_clf, etc_clf, ada_clf, gbdt_clf]
+        return [lr, dt, rfc, bag_clf, gbdt_clf]
 
     def get_best_hyperparameters(self, x_train, y_train, param_grid, model):
         CV_rfc = GridSearchCV(estimator=model, param_grid=param_grid, cv=5)

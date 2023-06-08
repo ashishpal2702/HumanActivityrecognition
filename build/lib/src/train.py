@@ -38,14 +38,13 @@ class Training:
 
     def train(self):
         """Load data from for Model training and train model and save the weights."""
-        threshold = 0.5
         update_log("making feature data set from raw data")
         md = Dataset(self.config)
-        train = Train(self.config, threshold)
+        train = Train()
         # Read Training Dataset
         df = md.read_data(self.config["training_data_file"])
         # Make Data set for Training
-        X, Y = md.make_train_dataset(df)
+        X, Y = md.make_train_dataset(df,'Activity')
 
         top_k_features = self.get_best_features(X, Y)
         X = X[top_k_features]
@@ -54,48 +53,37 @@ class Training:
         x_test_std = self.build_feature(x_test, mode="test")
         models = []
         accuracy_scores = []
-        roc_auc_scores = []
         f1_scores = []
         precision_scores = []
         recall_scores = []
         business_profit = []
         for model in train.get_classification_models():
-            score, roc, f1, precision, recall, profit = train.train_and_predict(
+            score, f1, precision, recall = train.train_and_predict(
                 model, x_train_std, y_train, x_test_std, y_test
             )
+            print(model)
+            print(score, f1, precision, recall)
             models.append(type(model).__name__)
             accuracy_scores.append(score)
-            roc_auc_scores.append(roc)
+            #roc_auc_scores.append(roc)
             f1_scores.append(f1)
             precision_scores.append(f1)
             recall_scores.append(f1)
-            business_profit.append(profit)
+
         Model_comarison = pd.DataFrame(
             {
                 "Model": models,
                 "Accuracy": accuracy_scores,
-                "Roc score": roc_auc_scores,
                 "F1": f1_scores,
                 "Precision": precision_scores,
-                "Recall": recall_scores,
-                "business_profit": business_profit,
+                "Recall": recall_scores
             }
         )
-        print(Model_comarison.sort_values(by="business_profit", ascending=False))
-
-        ## Choosing LR model As final model :
-
-        final_model = train.best_lr_model(x_train_std, y_train)
-        score, roc, f1, precision, recall, profit = train.train_and_predict(
-            final_model, x_train_std, y_train, x_test_std, y_test
-        )
-        print(score, roc, f1, precision, recall, profit)
-        train.save_model_weights(final_model, self.config["model_weights"])
-        save_weights(top_k_features, self.config["feat_col"])
+        print(Model_comarison)
 
 
 if __name__ == "__main__":
     update_log("Start Model training on latest processed data")
-    k = 6
+    k = 10
     config = load_config()
     Training(config,k).train()

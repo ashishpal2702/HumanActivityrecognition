@@ -13,7 +13,7 @@ from sklearn.metrics import (
     recall_score,
     precision_score,
 )
-import shap
+#import shap
 
 
 class Eval:
@@ -28,7 +28,10 @@ class Eval:
         f1 = f1_score(y_actual, y_pred, average='micro')
         return accuracy, f1, precision, recall
 
+    """
+
     def interpret_model_results(self, model, x):
         explainer = shap.Explainer(model)
         shap_values = explainer(x)
         return shap_values
+    """

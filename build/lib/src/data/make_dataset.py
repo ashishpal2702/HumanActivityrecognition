@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-
+from sklearn.preprocessing import LabelEncoder
 # from imblearn.over_sampling import SMOTE
 
 
@@ -19,12 +19,14 @@ class Dataset:
         print(df.isna().sum())
 
     def make_train_dataset(self, df, y_col):
+        le = LabelEncoder()
+        df[y_col] = le.fit_transform(df[y_col])
         X = df.drop([y_col], axis=1)
         Y = df[y_col]
         return X, Y
 
     def make_test_dataset(self, df):
-        X = df#.drop(["customerID"], axis=1)
+        X = df
         return X
 
     def data_split(self, X, Y):
