@@ -20,8 +20,8 @@ class BuildFeatures:
     def encode_data(self, df, categorical_features):
         for col in categorical_features:
             lbe = LabelEncoder()
+
             df[col] = lbe.fit_transform(df[col])
-            save_weights(lbe, self.config["encoder_weights"])
         return df
 
     def get_top_k_features(self, X, Y, k):

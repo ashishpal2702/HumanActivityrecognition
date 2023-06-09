@@ -16,13 +16,10 @@ def load_config():
     @return:  toml file configurations
     @rtype: object
     """
-
     config_file = "config.toml"
-
     filepath = os.path.join(PROJECT_DIR, "config", config_file)
     with open(filepath, "r") as f:
         return toml.load(f)
-
 
 
 def update_log(message):

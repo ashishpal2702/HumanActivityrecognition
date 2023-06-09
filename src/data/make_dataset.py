@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 # from imblearn.over_sampling import SMOTE
-
+from src.utils.helper import save_weights, load_weights
 
 class Dataset:
     def __init__(self, config):
@@ -23,6 +23,7 @@ class Dataset:
         df[y_col] = le.fit_transform(df[y_col])
         X = df.drop([y_col], axis=1)
         Y = df[y_col]
+        save_weights(le, self.config["encoder_weights"])
         return X, Y
 
     def make_test_dataset(self, df):

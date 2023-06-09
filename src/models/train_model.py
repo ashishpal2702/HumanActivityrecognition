@@ -57,12 +57,6 @@ class Train:
             random_state=42,
         )
 
-        #etc_clf = ExtraTreesClassifier(
-        #    n_estimators=1000, min_samples_split=300, random_state=42
-        #)
-        #ada_clf = AdaBoostClassifier(
-        #    DecisionTreeClassifier(max_depth=1), n_estimators=300, learning_rate=1.0
-        #)
         gbdt_clf = GradientBoostingClassifier(
             n_estimators=50,
             learning_rate=1.0,

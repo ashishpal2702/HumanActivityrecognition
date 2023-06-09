@@ -8,13 +8,13 @@ monthly_charge = 100
 feature_file = "../data/processed/feature.csv"
 training_data_file = '/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/Human_Activity_Recognition_Using_Smartphones_Data_augmented_data.gzip'
 testdata_file = '/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/Human_Activity_Recognition_Using_Smartphones_TestData.csv'
-##Output Prediction :->
+##Output Prediction
 model_prediction = '../data/prediction/prediction.csv'
-daily_prediction_dir = '../data/prediction/daily_prediction/'
 
 ## Pipeline feature
-feature_pipeline = 'weights/pipeline/pipeline.pkl'
+
 encoder_weights = "weights/pipeline/encoder.pkl"
+feature_pipeline = 'weights/pipeline/pipeline.pkl'
 model_weights = 'model/LogisticRegression/model.pkl'
 
 ## Columns

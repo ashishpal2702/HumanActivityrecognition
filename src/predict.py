@@ -55,16 +55,17 @@ class Prediction:
         threshold = 0.5
         x_test_std = self.build_test_feature(df)
         df['prediction'] = self.model_predict(x_test_std, threshold)
-        le = load_weights(self.config['encoder_weights'])
+        print(self.config)
+        print(self.config["encoder_weights"])
+        le = load_weights(self.config["encoder_weights"])
         df['prediction'] = le.inverse_transform(df['Activity'])
         return df
-
 
 if __name__ == "__main__":
     update_log("Prediction customers who are likely to churn")
     config = load_config()
+    print(config)
     #Prediction(config).bacth_predict()
     test_df = pd.read_csv(config['testdata_file'])
     prediction_table = Prediction(config).live_predict(test_df)
-
     print(prediction_table.head())
