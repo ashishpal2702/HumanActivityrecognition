@@ -1,6 +1,8 @@
 # HumanActivityrecognition
 
 
+Code notebook [Logistic_Regression_and_Classification_POC](Logistic_Regression_and_Classification_POC.ipynb)
+
 <!-- Execution -->
 <h2 id="execution"> 🍴 Execution</h2>
 
