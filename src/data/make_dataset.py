@@ -18,7 +18,12 @@ class Dataset:
         print(df.info())
         print(df.isna().sum())
 
+    def preprocess(self, df,x_col):
+        df.drop([x_col], axis=1)
+        return df
+
     def make_train_dataset(self, df, y_col):
+
         le = LabelEncoder()
         df[y_col] = le.fit_transform(df[y_col])
         X = df.drop([y_col], axis=1)
