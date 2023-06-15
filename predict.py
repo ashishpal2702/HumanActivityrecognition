@@ -69,3 +69,5 @@ if __name__ == "__main__":
     test_df = pd.read_csv(config['testdata_file'])
     prediction_table = Prediction(config).live_predict(test_df)
     print(prediction_table.head())
+
+    prediction_table.to_csv('./output/test_data_prediction.csv')
