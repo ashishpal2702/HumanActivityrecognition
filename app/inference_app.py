@@ -1,31 +1,52 @@
 import gradio as gr
+import plotly.express as px
+from io import StringIO
+from zipfile import ZipFile
+import pandas as pd
+from src.utils.helper import (
+    load_config,
+    update_log,
+    load_weights,
+)
+from predict import Prediction
 
-def predict(df):
 
-    return df
+
+def plotly_plot(df):
+    # prepare some data
+    x = df['prediction_label'].unique()
+    y = df['prediction_label'].value_counts().values
+    data = pd.DataFrame()
+    data['Activity'] = x
+    data['count'] = y
+    # create a new plot
+    p = px.bar(data, x='Activity', y='count')
+
+    return p
+
+
+def model_predict(df):
+    config = load_config()
+    prediction = Prediction(config).live_predict(df)
+    return prediction
+
+def upload_file(file):
+    print(file)
+    #df = pd.read_csv('/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/Human_Activity_Recognition_Using_Smartphones_TestData.csv') #('./data/tmp.csv')
+    #df = pd.read_csv(data)
+    df = pd.read_csv(file.name, encoding='utf-8')
+
+    prediction = model_predict(df)
+    plot = plotly_plot(df)
+
+    return prediction.head() , plot
 
 demo = gr.Interface(
-    predict,
-    [
-        gr.Textbox(
-            label="tBodyAcc-mean()-X",
-            info="0.288",
-            lines=3,
-            value="Provide value between 0 to 1",
-        ),
-        gr.Textbox(
-            label="Text 2",
-            info="Text to compare",
-            lines=3,
-            value="The fast brown fox jumps over lazy dogs.",
-        ),
-    ],
-    gr.HighlightedText(
-        label="Diff",
-        combine_adjacent=True,
-        show_legend=True,
-    ).style(color_map={"+": "red", "-": "green"}),
-    theme=gr.themes.Base()
+    upload_file,
+    gr.File(file_count="single", file_types=[".csv"]),
+    [gr.Dataframe(),gr.Plot()],
+    cache_examples=True
 )
+
 if __name__ == "__main__":
     demo.launch()

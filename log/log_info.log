@@ -23,3 +23,6 @@
 2023-06-14 19:33:01,788 Start Model training on latest processed data
 2023-06-14 19:33:01,789 making feature data set from raw data
 2023-06-15 09:58:23,864 Prediction customers who are likely to churn
+2023-06-17 10:18:52,131 Predict Activity
+2023-06-17 10:20:10,049 Predict Activity
+2023-06-17 10:22:10,539 Predict Activity
