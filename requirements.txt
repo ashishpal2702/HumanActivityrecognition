@@ -3,4 +3,5 @@ scikit-learn
 toml
 shap
 pyarrow
-
+plotly
+gradio

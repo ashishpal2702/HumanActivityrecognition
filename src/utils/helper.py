@@ -4,6 +4,7 @@ import json
 import logging
 import pandas as pd
 import joblib
+from datetime import datetime
 
 PROJECT_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), os.pardir, os.pardir)
@@ -55,7 +56,10 @@ def load_weights(file):
 
 
 def save_model(model):
-    dir_path = os.path.join(PROJECT_DIR, "model", type(model).__name__)
+
+    now = datetime.now()
+    date_time = now.strftime("%Y_%m_%d %H:%M:%S")
+    dir_path = os.path.join(PROJECT_DIR, "model", type(model).__name__, str(date_time))
     if not os.path.exists(dir_path):
         print("Creating model Dir at, ", dir_path)
         os.makedirs(dir_path)
