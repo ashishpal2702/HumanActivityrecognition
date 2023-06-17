@@ -35,6 +35,11 @@ For Model Prediction:
 
 `python src/predict.py`
 
+For Model Inference: 
+
+`python src/inference.py <model_weight> <test_data> <output_data>`
+
+
 For Model Inference Application : 
 
-`streamlit run app/app.py`
+`python app/inference_app.py`
