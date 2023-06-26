@@ -33,11 +33,11 @@ For Model Training:
 
 `python src/train.py`
 
-For Model Prediction: 
+For Batch Prediction: 
 
 `python src/predict.py`
 
-For Model Inference: 
+For Model Real time Prediction: 
 
 `python src/inference.py <model_weight> <test_data> <output_data>`
 

@@ -1,7 +1,9 @@
 import logging
+import datetime
 import pandas as pd
 import numpy as np
-import datetime
+import os
+from datetime import datetime
 from src.utils.helper import (
     load_config,
     update_log,
@@ -58,9 +60,12 @@ class Prediction:
         print(self.config["encoder_weights"])
         le = load_weights(self.config["encoder_weights"])
         df['prediction_label'] = le.inverse_transform(df['prediction'])
+        print(df['prediction_label'].value_counts())
         return df
 
 if __name__ == "__main__":
+    now = datetime.now()
+    date_time = now.strftime("%Y_%m_%d %H:%M:%S")
     update_log("Predict Activity")
     config = load_config()
     print(config)
@@ -68,5 +73,7 @@ if __name__ == "__main__":
     test_df = pd.read_csv(config['testdata_file'])
     prediction_table = Prediction(config).live_predict(test_df)
     print(prediction_table.head())
-
-    prediction_table.to_csv('./output/test_data_prediction.csv')
+    prediction_table = pd.DataFrame(prediction_table['prediction_label'])
+    dir_path = f'./output/{date_time}'
+    os.makedirs(dir_path)
+    prediction_table.to_csv(f'{dir_path}/test_data_prediction.csv')
