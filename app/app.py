@@ -84,7 +84,8 @@ with tab2:
         st.write('Model Prediction')
         prediction = model_predict(df)
         print(prediction.head()['prediction_label'])
+        pred_df = pd.DataFrame(prediction['prediction_label'].value_counts())
+        pred_df.columns = ['minutes']
+        st.bar_chart(pred_df)
 
-        st.bar_chart(prediction['prediction_label'].value_counts())
-
-        st.write(prediction['prediction_label'])
+        st.write(pred_df)

@@ -8,7 +8,8 @@ monthly_charge = 100
 feature_file = "../data/processed/feature.csv"
 #training_data_file = '/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/Human_Activity_Recognition_Using_Smartphones_Data_augmented_data_sample.gzip'
 training_data_file = '/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/Human_Activity_Recognition_Using_Smartphones_Data_augmented_timedata_sample.gzip'
-testdata_file = '/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/Human_Activity_Recognition_Using_Smartphones_TestData.csv'
+#testdata_file = '/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/Human_Activity_Recognition_Using_Smartphones_TestData.csv'
+testdata_file = '/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/test_data.csv'
 ##Output Prediction
 model_prediction = '../data/prediction/prediction.csv'
 
@@ -16,7 +17,7 @@ model_prediction = '../data/prediction/prediction.csv'
 
 encoder_weights = "weights/pipeline/encoder.pkl"
 feature_pipeline = 'weights/pipeline/pipeline.pkl'
-model_weights = 'model/RandomForestClassifier/2023_06_27 13:34:27/model.pkl'
+model_weights = 'model/RandomForestClassifier/2023_07_12 15:48:34/model.pkl'
 
 ## Columns
 feat_col = "weights/pipeline/cols.pkl"
