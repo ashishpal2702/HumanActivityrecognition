@@ -17,7 +17,7 @@ model_prediction = '../data/prediction/prediction.csv'
 
 encoder_weights = "weights/pipeline/encoder.pkl"
 feature_pipeline = 'weights/pipeline/pipeline.pkl'
-model_weights = 'model/RandomForestClassifier/2023_07_12 15:48:34/model.pkl'
+model_weights = 'model/RandomForestClassifier/2023_07_17 12:37:08/model.pkl'
 
 ## Columns
 feat_col = "weights/pipeline/cols.pkl"
