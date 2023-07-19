@@ -1,6 +1,8 @@
 import streamlit as st
+import random
 import pandas as pd
 from io import StringIO
+from PIL import Image
 from src.utils.helper import (
     load_config,
     update_log,
@@ -9,7 +11,7 @@ from src.utils.helper import (
 from predict import Prediction
 
 df = pd.DataFrame()
-
+config = load_config()
 def model_predict(df):
     config = load_config()
     prediction = Prediction(config).live_predict(df)
@@ -17,65 +19,56 @@ def model_predict(df):
 
 
 tab1, tab2 = st.tabs(["Real Time Prediction", "Batch Prediction"])
+cols = ['tGravityAcc-min()-X','tGravityAcc-energy()-X','angle(X,gravityMean)','tGravityAcc-min()-Y','tGravityAcc-mean()-X',
+           'tGravityAcc-max()-Y', 'tGravityAcc-max()-X','angle(Y,gravityMean)','tGravityAcc-mean()-Y','tGravityAcc-energy()-Y']
+df = pd.read_csv(config['testdata_file'])
+df = df[cols]
 
 with tab1:
-    st.header("Real Time Prediction")
-    st.header("  Features ")
+    st.header("Real Time Prediction Watch")
+    st.header("  Generate Sendor Value ")
+    global val
+    val = [0,0,0,0,0,0,0,0,0,0]
+    col1, col2 = st.columns(2)
+    with col1:
+        image = Image.open('./app/phone.jpeg')
 
-    activity = st.radio(
-        "Select Activity to get sensors value",
-        ('STANDING',  'SITTING','LAYING','WALKING', 'WALKING_UPSTAIRS','WALKING_DOWNSTAIRS'))
+        st.image(image, caption='Smart Phone Activity Tracker')
 
-    if activity == 'STANDING':
-        val = [ 0.97657704,  0.88534827, -0.81188833, -0.13432725,  0.95804439,
-       -0.17985003,  0.8843957 ,  0.19233134, -0.15910602, -0.96162393]
-    elif activity == 'SITTING':
-        val = [ 0.98520393,  0.90727763, -0.89278795,  0.11383441,  0.96635272,
-        0.06377597,  0.8925701 ,  0.02086838,  0.09212252, -0.97656826]
-    elif activity == 'LAYING':
-        val = [-0.35485178, -0.99486021,  0.53911539,  0.97368142, -0.40004035,
-        0.91000875, -0.45805357, -0.84447893,  0.96236333,  0.8544026]
-    elif activity == 'WALKING':
-        val = [ 0.91899885,  0.74466009, -0.66407709, -0.24594059,  0.90354823,
-       -0.28391389,  0.83465449,  0.26795461, -0.26845704, -0.87903034]
-    elif activity == 'WALKING_UPSTAIRS':
-        val = [ 0.95453392,  0.92233673, -0.7945455 , -0.21143753,  0.97189159,
-       -0.17007847,  0.92337829,  0.21196459, -0.18991835, -0.94123471]
-    elif activity == 'WALKING_DOWNSTAIRS':
-        val = [ 0.90818192,  0.75996929, -0.71123519, -0.17506794,  0.90954198,
-       -0.20938135,  0.84816272,  0.2213512 , -0.19942022, -0.93653733]
-    else:
-        val = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        random_int = st.slider('Select a range of Random Sensor value',0, 1000)
+        val = df.values[int(random_int)]
 
-    feature1 = st.number_input(label = 'tGravityAcc-min()-X' ,value = val[0])
-    feature2 = st.number_input(label ='tGravityAcc-energy()-X',value = val[1])
-    feature3 = st.number_input(label ='angle(X,gravityMean)',value = val[2])
-    feature4 = st.number_input(label ='tGravityAcc-min()-Y',value = val[3])
-    feature5 = st.number_input(label ='tGravityAcc-mean()-X',value = val[4])
-    feature6 = st.number_input(label ='tGravityAcc-max()-Y',value = val[5])
-    feature7 = st.number_input(label ='tGravityAcc-max()-X',value = val[6])
-    feature8 = st.number_input(label ='angle(Y,gravityMean)',value = val[7])
-    feature9 = st.number_input(label ='tGravityAcc-mean()-Y',value = val[8])
-    feature10 = st.number_input(label='tGravityAcc-energy()-Y', value=val[9])
-    #feature10 = st.number_input(label ='fBodyAccJerk-entropy()-X',value = val[9])
+    with col2:
 
-    data_dict = {       'tGravityAcc-min()-X':      feature1,
-                        'tGravityAcc-energy()-X':   feature2,
-                       'angle(X,gravityMean)':      feature3,
-                       'tGravityAcc-min()-Y':       feature4,
-                       'tGravityAcc-mean()-X':      feature5,
-                       'tGravityAcc-max()-Y':       feature6,
-                       'tGravityAcc-max()-X':       feature7,
-                       'angle(Y,gravityMean)':     feature8,
-                       'tGravityAcc-mean()-Y':     feature9,
-                       'tGravityAcc-energy()-Y':        feature10
-                 }
-    df = pd.DataFrame(data_dict, index=[0])
+        feature1 = st.number_input(label = 'tGravityAcc-min()-X' ,value = val[0])
+        feature2 = st.number_input(label ='tGravityAcc-energy()-X',value = val[1])
+        feature3 = st.number_input(label ='angle(X,gravityMean)',value = val[2])
+        feature4 = st.number_input(label ='tGravityAcc-min()-Y',value = val[3])
+        feature5 = st.number_input(label ='tGravityAcc-mean()-X',value = val[4])
+        feature6 = st.number_input(label ='tGravityAcc-max()-Y',value = val[5])
+        feature7 = st.number_input(label ='tGravityAcc-max()-X',value = val[6])
+        feature8 = st.number_input(label ='angle(Y,gravityMean)',value = val[7])
+        feature9 = st.number_input(label ='tGravityAcc-mean()-Y',value = val[8])
+        feature10 = st.number_input(label='tGravityAcc-energy()-Y', value=val[9])
+        #feature10 = st.number_input(label ='fBodyAccJerk-entropy()-X',value = val[9])
 
-    if st.button('Predict'):
-        prediction = model_predict(df)
-        st.write('Model Prediction is : ', str(prediction['prediction_label'].values))
-        st.write(prediction.T)
+        data_dict = {       'tGravityAcc-min()-X':      feature1,
+                            'tGravityAcc-energy()-X':   feature2,
+                           'angle(X,gravityMean)':      feature3,
+                           'tGravityAcc-min()-Y':       feature4,
+                           'tGravityAcc-mean()-X':      feature5,
+                           'tGravityAcc-max()-Y':       feature6,
+                           'tGravityAcc-max()-X':       feature7,
+                           'angle(Y,gravityMean)':     feature8,
+                           'tGravityAcc-mean()-Y':     feature9,
+                           'tGravityAcc-energy()-Y':        feature10
+                     }
+        df = pd.DataFrame(data_dict, index=[0])
+        print(df)
+        if st.button('Predict'):
+            prediction = model_predict(df)
+            st.write('Model Prediction is : ', prediction['prediction_label'].values)
+            #st.write(prediction.T)
 
 with tab2:
     st.header("Batch Prediction")
