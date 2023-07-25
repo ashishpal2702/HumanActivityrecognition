@@ -6,8 +6,8 @@ monthly_charge = 100
 
 ## Output Processed data
 feature_file = "../data/processed/feature.csv"
-#training_data_file = '/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/Human_Activity_Recognition_Using_Smartphones_Data_augmented_data_sample.gzip'
-training_data_file = '/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/Human_Activity_Recognition_Using_Smartphones_Data_augmented_timedata_sample.gzip'
+training_data_file = '/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/Human_Activity_Recognition_Using_Smartphones_Data_augmented_timedata_new_data.gzip'
+#training_data_file = '/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/Human_Activity_Recognition_Using_Smartphones_Data_augmented_timedata_sample.gzip'
 #testdata_file = '/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/Human_Activity_Recognition_Using_Smartphones_TestData.csv'
 testdata_file = '/Users/apal/Documents/PathtoAI/AnalyticsVidhya/Mlops/data/test_data.csv'
 ##Output Prediction

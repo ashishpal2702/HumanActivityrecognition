@@ -17,7 +17,6 @@ def model_predict(df):
     prediction = Prediction(config).live_predict(df)
     return prediction
 
-
 tab1, tab2 = st.tabs(["Real Time Prediction", "Batch Prediction"])
 cols = ['tGravityAcc-min()-X','tGravityAcc-energy()-X','angle(X,gravityMean)','tGravityAcc-min()-Y','tGravityAcc-mean()-X',
            'tGravityAcc-max()-Y', 'tGravityAcc-max()-X','angle(Y,gravityMean)','tGravityAcc-mean()-Y','tGravityAcc-energy()-Y']
@@ -73,12 +72,6 @@ with tab1:
 with tab2:
     st.header("Batch Prediction")
     uploaded_file = st.file_uploader("Choose a file")
-
-    #option = st.selectbox('Choose Model for Predictions',('Logistic Regression', 'Decision Tree', 'Random Forest'))
-
-    #st.write('You selected:', option)
-
-
 
     if uploaded_file is not None:
         # To read file as bytes:
