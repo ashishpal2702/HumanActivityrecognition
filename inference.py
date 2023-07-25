@@ -46,8 +46,10 @@ if __name__ == "__main__":
     config = load_config()
     model_weights_path = sys.argv[1]
     test_df = pd.read_csv(sys.argv[2])
-    output_path = pd.read_csv(sys.argv[3])
-
+    output_path = sys.argv[3]
+    print(model_weights_path)
+    print(test_df)
+    print(output_path)
     prediction_table = Inference(config).live_predict(test_df, model_weights_path)
     print(prediction_table.head())
 

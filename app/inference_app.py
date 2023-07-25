@@ -10,8 +10,6 @@ from src.utils.helper import (
 )
 from predict import Prediction
 
-
-
 def plotly_plot(df):
     # prepare some data
     x = df['prediction_label'].unique()
@@ -23,7 +21,6 @@ def plotly_plot(df):
     p = px.bar(data, x='Activity', y='count')
 
     return p
-
 
 def model_predict(df):
     config = load_config()

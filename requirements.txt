@@ -5,3 +5,6 @@ shap
 pyarrow
 plotly
 gradio
+evidently
+streamlit
+Pillow
