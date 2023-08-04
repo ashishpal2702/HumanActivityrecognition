@@ -42,4 +42,4 @@ For Model Real time Prediction:
 
 For Model Inference Application : 
 
-`python app/inference_app.py`
+`python app/app.py`
