@@ -20,6 +20,11 @@ def model_predict(df):
     prediction = le.inverse_transform(prediction)
     return prediction
 
+def model_batch_predict(df):
+    config = load_config()
+    prediction = Prediction(config).live_predict(df)
+    return prediction
+
 tab1, tab2 = st.tabs(["Real Time Prediction", "Batch Prediction"])
 cols = ['tGravityAcc-min()-X','tGravityAcc-energy()-X','angle(X,gravityMean)','tGravityAcc-min()-Y','tGravityAcc-mean()-X',
            'tGravityAcc-max()-Y', 'tGravityAcc-max()-X','angle(Y,gravityMean)','tGravityAcc-mean()-Y','tGravityAcc-energy()-Y']
@@ -102,7 +107,7 @@ with tab2:
 
     if st.button('Batch Predict'):
         st.write('Model Prediction')
-        prediction = model_predict(df)
+        prediction = model_batch_predict(df)
         print(prediction.head()['prediction_label'])
         pred_df = pd.DataFrame(prediction['prediction_label'].value_counts())
         pred_df.columns = ['minutes']
