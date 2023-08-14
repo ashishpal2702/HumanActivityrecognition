@@ -5,7 +5,6 @@ code.egg-info/SOURCES.txt
 code.egg-info/dependency_links.txt
 code.egg-info/top_level.txt
 src/__init__.py
-src/inference.py
 src/data/__init__.py
 src/data/make_dataset.py
 src/features/__init__.py
