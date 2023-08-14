@@ -42,4 +42,4 @@ For Model Real time Prediction:
 
 For Model Inference Application : 
 
-`python app/app.py`
+`streamlit run app/app.py`
