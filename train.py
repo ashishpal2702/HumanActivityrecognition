@@ -43,7 +43,7 @@ class Training:
         train = Train()
         # Read Training Dataset
         df = md.read_data(self.config["training_data_file"])
-        ## EDAs
+        ## EDA
         md.data_analysis(df)
         ## Preprocess Data and remove Date time column
         df = md.preprocess(df, 'date_time')

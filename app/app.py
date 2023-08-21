@@ -46,7 +46,7 @@ with tab1:
 
         st.image(image, caption='Smart Phone Activity Tracker')
 
-        random_int = st.slider('Select a range of Random Sensor value',0, 1000)
+        random_int = st.slider('Select a range of Random Sensor value',0, len(df))
         val = df[random_int]#df.values[int(random_int)]
 
     with col2:
@@ -77,9 +77,9 @@ with tab1:
         #test_df = pd.DataFrame(data_dict, index=[0])
         #print(test_df)
         test_df = val#pd.DataFrame(df.iloc[random_int,:])
-        if st.button('Predict'):
-            prediction = model_predict(test_df)
-            st.write('Model Prediction is : ', prediction)
+        #if st.button('Predict'):
+        prediction = model_predict(test_df)
+        st.write('Model Prediction is : ', prediction)
             #st.write(prediction.T)
 
 with tab2:
