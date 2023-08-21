@@ -48,7 +48,6 @@ def save_weights(obj, file):
     filepath = os.path.join(PROJECT_DIR, file)
     joblib.dump(obj, filepath)
 
-
 def load_weights(file):
     filepath = os.path.join(PROJECT_DIR, file)
     object = joblib.load(filepath)

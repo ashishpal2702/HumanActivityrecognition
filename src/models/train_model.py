@@ -96,16 +96,3 @@ class Train:
         best_parameters = self.get_best_hyperparameters(x, y, param_grid, rfc)
         rfc.set_params(**best_parameters)
         return rfc
-
-    """
-    def automl(self,df):
-        s = setup(df, target='Churn', ignore_features=['customerID'])
-        eval = Eval()
-        add_metric('profit', 'Profit', eval.business_matrix())
-
-        best_model = compare_models(sort='Profit')
-
-        tuned_best_model = tune_model(best_model)
-
-        return tuned_best_model
-    """

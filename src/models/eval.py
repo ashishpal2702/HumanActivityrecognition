@@ -26,11 +26,3 @@ class Eval:
         recall = recall_score(y_actual, y_pred,average='macro')
         f1 = f1_score(y_actual, y_pred, average='macro')
         return accuracy, f1, precision, recall
-
-    """
-
-    def interpret_model_results(self, model, x):
-        explainer = shap.Explainer(model)
-        shap_values = explainer(x)
-        return shap_values
-    """
