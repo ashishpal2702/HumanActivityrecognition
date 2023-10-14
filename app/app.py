@@ -12,7 +12,15 @@ from predict import Prediction
 
 df = pd.DataFrame()
 config = load_config()
+
 def model_predict(df):
+    config = load_config()
+    prediction = Prediction(config).model_predict(df.reshape(1, -1),0.5)
+    le = load_weights(config["encoder_weights"])
+    prediction = le.inverse_transform(prediction)
+    return prediction
+
+def model_batch_predict(df):
     config = load_config()
     prediction = Prediction(config).live_predict(df)
     return prediction
@@ -20,8 +28,12 @@ def model_predict(df):
 tab1, tab2 = st.tabs(["Real Time Prediction", "Batch Prediction"])
 cols = ['tGravityAcc-min()-X','tGravityAcc-energy()-X','angle(X,gravityMean)','tGravityAcc-min()-Y','tGravityAcc-mean()-X',
            'tGravityAcc-max()-Y', 'tGravityAcc-max()-X','angle(Y,gravityMean)','tGravityAcc-mean()-Y','tGravityAcc-energy()-Y']
+
 df = pd.read_csv(config['testdata_file'])
-df = df[cols]
+processor = load_weights(config["feature_pipeline"])
+df_transformed = processor.transform(df)
+df = df_transformed#[cols]
+print(df)
 
 with tab1:
     st.header("Real Time Prediction Watch")
@@ -34,8 +46,8 @@ with tab1:
 
         st.image(image, caption='Smart Phone Activity Tracker')
 
-        random_int = st.slider('Select a range of Random Sensor value',0, 1000)
-        val = df.values[int(random_int)]
+        random_int = st.slider('Select a range of Random Sensor value',0, len(df))
+        val = df[random_int]#df.values[int(random_int)]
 
     with col2:
 
@@ -49,7 +61,7 @@ with tab1:
         feature8 = st.number_input(label ='angle(Y,gravityMean)',value = val[7])
         feature9 = st.number_input(label ='tGravityAcc-mean()-Y',value = val[8])
         feature10 = st.number_input(label='tGravityAcc-energy()-Y', value=val[9])
-        #feature10 = st.number_input(label ='fBodyAccJerk-entropy()-X',value = val[9])
+        feature10 = st.number_input(label ='fBodyAccJerk-entropy()-X',value = val[9])
 
         data_dict = {       'tGravityAcc-min()-X':      feature1,
                             'tGravityAcc-energy()-X':   feature2,
@@ -62,11 +74,12 @@ with tab1:
                            'tGravityAcc-mean()-Y':     feature9,
                            'tGravityAcc-energy()-Y':        feature10
                      }
-        df = pd.DataFrame(data_dict, index=[0])
-        print(df)
-        if st.button('Predict'):
-            prediction = model_predict(df)
-            st.write('Model Prediction is : ', prediction['prediction_label'].values)
+        #test_df = pd.DataFrame(data_dict, index=[0])
+        #print(test_df)
+        test_df = val#pd.DataFrame(df.iloc[random_int,:])
+        #if st.button('Predict'):
+        prediction = model_predict(test_df)
+        st.write('Model Prediction is : ', prediction)
             #st.write(prediction.T)
 
 with tab2:
@@ -94,7 +107,7 @@ with tab2:
 
     if st.button('Batch Predict'):
         st.write('Model Prediction')
-        prediction = model_predict(df)
+        prediction = model_batch_predict(df)
         print(prediction.head()['prediction_label'])
         pred_df = pd.DataFrame(prediction['prediction_label'].value_counts())
         pred_df.columns = ['minutes']

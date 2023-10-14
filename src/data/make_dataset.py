@@ -23,7 +23,6 @@ class Dataset:
         return df
 
     def make_train_dataset(self, df, y_col):
-
         le = LabelEncoder()
         df[y_col] = le.fit_transform(df[y_col])
         X = df.drop([y_col], axis=1)

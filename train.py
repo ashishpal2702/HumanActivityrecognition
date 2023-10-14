@@ -16,7 +16,7 @@ class Training:
         self.k = k
         self.top_k_cols = []
         self.feat = BuildFeatures(self.config)
-
+    ## Select Top K features from the data
     def get_best_features(self, X, Y):
         X = self.feat.preprocess(X)
         numerical_features, categorical_features = self.feat.get_features_col(X)
@@ -24,7 +24,7 @@ class Training:
         self.top_k_cols = self.feat.get_top_k_features(X_encode, Y, self.k)
         print(self.top_k_cols)
         return self.top_k_cols
-
+    ## Transform data for train and test dataset
     def build_feature(self, X, mode):
         if mode == "train":
             numerical_features, categorical_features = self.feat.get_features_col(X)
@@ -35,7 +35,7 @@ class Training:
         if mode == "test":
             df_transformed = self.feat.test_data_preprocessing_pipeline(X)
             return df_transformed
-
+    ## Main training function
     def train(self):
         """Load data from for Model training and train model and save the weights."""
         update_log("making feature data set from raw data")
@@ -43,16 +43,18 @@ class Training:
         train = Train()
         # Read Training Dataset
         df = md.read_data(self.config["training_data_file"])
-        ## EDAs
+        ## EDA
         md.data_analysis(df)
         ## Preprocess Data and remove Date time column
         df = md.preprocess(df, 'date_time')
         # Make Data set for Training
         X, Y = md.make_train_dataset(df,'Activity')
-
+        ## Select top 10 features from the data set
         top_k_features = self.get_best_features(X, Y)
         X = X[top_k_features]
+        ## Generate Training and Test Data set
         x_train, x_test, y_train, y_test = md.data_split(X, Y)
+        ## Standardised Train and test dataset for Linear models
         x_train_std = self.build_feature(x_train, mode="train")
         x_test_std = self.build_feature(x_test, mode="test")
         models = []
@@ -61,6 +63,7 @@ class Training:
         precision_scores = []
         recall_scores = []
         business_profit = []
+        ## Run Training for Different Models and get model metrics
         for model in train.get_classification_models():
             score, f1, precision, recall = train.train_and_predict(
                 model, x_train_std, y_train, x_test_std, y_test
