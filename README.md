@@ -1,6 +1,8 @@
 # HumanActivityrecognition
 
 
+Code notebook [Logistic_Regression_and_Classification_POC](Logistic_Regression_and_Classification_POC.ipynb)
+
 <!-- Execution -->
 <h2 id="execution"> 🍴 Execution</h2>
 
@@ -43,3 +45,4 @@ For Model Real time Prediction:
 For Model Inference Application : 
 
 `streamlit run app/app.py`
+
