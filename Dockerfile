@@ -1,16 +1,9 @@
+FROM python:3.10.5-slim-buster
 
-FROM registry.twilio.com/library/base-python-38:latest
+EXPOSE 8000 8080
 
-RUN apt-get update && \
-    apt-get install -y vim && \
-    apt-get install -y supervisor
-#   apt-get install -y redis-server
-
-
-#RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
-#    unzip awscliv2.zip && \
-#    ./aws/install
-#
+RUN apt-get -y update && apt-get -y upgrade
+RUN apt-get -y install supervisor
 
 COPY requirements.txt /mnt/src/requirements.txt
 
