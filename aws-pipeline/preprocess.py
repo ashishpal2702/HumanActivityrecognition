@@ -22,37 +22,28 @@ logger.addHandler(logging.StreamHandler())
 
 # Since we get a headerless CSV file we specify the column names here.
 feature_columns_names = [
-        'tGravityAcc-energy()-X', 
-        'tGravityAcc-mean()-X',
-       'angle(X,gravityMean)', 
-        'tGravityAcc-min()-X',
-       'tGravityAcc-min()-Y', 
-        'tGravityAcc-max()-Y',
-       'tGravityAcc-max()-X', 
-        'tGravityAcc-mean()-Y',
-       'angle(Y,gravityMean)',
-        'tBodyAccJerk-entropy()-X',
-       'tBodyAcc-max()-X',
-      'fBodyAccMag-mad()'
+    "sex",
+    "length",
+    "diameter",
+    "height",
+    "whole_weight",
+    "shucked_weight",
+    "viscera_weight",
+    "shell_weight",
 ]
-label_column = "Activity"
+label_column = "rings"
 
 feature_columns_dtype = {
-    "tGravityAcc-energy()-X": np.float64,
-    "tGravityAcc-mean()-X": np.float64,
-    "angle(X,gravityMean)": np.float64,
-    "tGravityAcc-min()-X": np.float64,
-    "tGravityAcc-min()-Y": np.float64,
-    "tGravityAcc-max()-Y": np.float64,
-    "tGravityAcc-max()-X": np.float64,
-    "tGravityAcc-mean()-Y": np.float64,
-    "angle(Y,gravityMean)": np.float64,
-    "tBodyAccJerk-entropy()-X": np.float64,
-    "tBodyAcc-max()-X": np.float64,
-    "fBodyAccMag-mad()": np.float64,
-    
+    "sex": str,
+    "length": np.float64,
+    "diameter": np.float64,
+    "height": np.float64,
+    "whole_weight": np.float64,
+    "shucked_weight": np.float64,
+    "viscera_weight": np.float64,
+    "shell_weight": np.float64,
 }
-label_column_dtype = {"Activity": 'str'}
+label_column_dtype = {"rings": np.float64}
 
 
 def merge_two_dicts(x, y):
@@ -75,18 +66,11 @@ if __name__ == "__main__":
     key = "/".join(input_data.split("/")[3:])
 
     logger.info("Downloading data from bucket: %s, key: %s", bucket, key)
-    fn = f"{base_dir}/data/sample_train.csv"
+    fn = f"{base_dir}/data/abalone-dataset.csv"
     s3 = boto3.resource("s3")
     s3.Bucket(bucket).download_file(key, fn)
 
-    #logger.debug("Reading downloaded data.")
-    logger.info("Reading downloaded data.")
-    #df = pd.read_csv(
-    #    fn,
-    #    header=None,
-    #    names=feature_columns_names + [label_column],
-    #    dtype=merge_two_dicts(feature_columns_dtype, label_column_dtype),
-    #)
+    logger.debug("Reading downloaded data.")
     df = pd.read_csv(fn)
     os.unlink(fn)
 
@@ -109,6 +93,7 @@ if __name__ == "__main__":
     logger.info("Splitting %d rows of data into train, validation, test datasets.", len(X))
     np.random.shuffle(X)
     train, validation, test = np.split(X, [int(0.7 * len(X)), int(0.85 * len(X))])
+
 
     logger.info("Writing out datasets to %s.", base_dir)
     pd.DataFrame(train).to_csv(f"{base_dir}/train/train.csv", header=False, index=False)

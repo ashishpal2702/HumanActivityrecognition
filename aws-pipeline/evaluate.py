@@ -37,10 +37,9 @@ if __name__ == "__main__":
 
     logger.info("Performing predictions against test data.")
     predictions = model.predict(X_test)
-    
-    print("Creating classification evaluation report")
+
+    logger.debug("Calculating mean squared error.")
     acc = accuracy_score(y_test, predictions.round())
-    #auc = roc_auc_score(y_test, predictions.round())
     
     report_dict = {
         "multiclass_classification_metrics": {
@@ -50,9 +49,6 @@ if __name__ == "__main__":
             }
         },
     }
-
-    print("Classification report:\n{}".format(report_dict))
-    
     
     output_dir = "/opt/ml/processing/evaluation"
     pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
@@ -61,5 +57,3 @@ if __name__ == "__main__":
     evaluation_path = f"{output_dir}/evaluation.json"
     with open(evaluation_path, "w") as f:
         f.write(json.dumps(report_dict))
-    
-    
